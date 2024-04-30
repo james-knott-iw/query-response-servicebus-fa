@@ -24,7 +24,8 @@ namespace IntegrationWorks.Function
 
         [Function("order_read")]
         public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "order_read/{id:int}")] HttpRequestData req, int id)
-        {
+        {   
+            
             string connectionString = Environment.GetEnvironmentVariable("ORDER_READ_QUEUE_KEY");
 
             string queueName = "order-read-queue";

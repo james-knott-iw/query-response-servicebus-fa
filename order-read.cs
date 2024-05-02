@@ -32,7 +32,7 @@ namespace IntegrationWorks.Function
         public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "order_read/{id:int}")] HttpRequestData req, int id)
         {
 
-            string? connectionString = _configuration.GetConnectionString("ORDER_READ_QUEUE_KEY");
+            string? connectionString = Environment.GetEnvironmentVariable("CUSTOM_CONNSTR_ORDER_READ_QUEUE_KEY");
             if (connectionString != null)
             {
                 string queueName = "order-read-queue";

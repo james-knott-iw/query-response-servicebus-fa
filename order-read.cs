@@ -30,16 +30,16 @@ namespace IntegrationWorks.Function
         }
 
         [Function("order_read")]
-        public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "order_read/{id:int}")] HttpRequestData req, int id)
+        public static Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "order_read/{id:int}")] HttpRequestData req, int id)
         {
 
             string? connectionString = System.Environment.GetEnvironmentVariable("ORDER_READ_QUEUE_KEY");
             if (connectionString != null)
             {
 
-                return new OkObjectResult("Welcome to Azure Functions!");
+                return Task.FromResult<IActionResult>(new OkObjectResult("Welcome to Azure Functions!"));
             }
-            return new OkObjectResult("Connection String null");
+            return Task.FromResult<IActionResult>(new OkObjectResult("Connection String null"));
         }
 
     }

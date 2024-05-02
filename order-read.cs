@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Azure.Messaging.ServiceBus;
 using System.Text.Json;
 using Microsoft.Azure.Functions.Worker.Http;
+using System.Configuration;
 using Microsoft.Extensions.Configuration;
 
 namespace IntegrationWorks.Function
@@ -17,22 +18,22 @@ namespace IntegrationWorks.Function
     public class order_read
     {
         private readonly ILogger<order_read> _logger;
-        private readonly IConfiguration _configuration;
 
-        public order_read(ILogger<order_read> logger, IConfiguration configuration)
+
+        public order_read(ILogger<order_read> logger)
         {
-            _configuration = configuration;
+
             _logger = logger;
+
+
+
         }
-
-
-
 
         [Function("order_read")]
         public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "order_read/{id:int}")] HttpRequestData req, int id)
         {
 
-            string? connectionString = Environment.GetEnvironmentVariable("CUSTOMCONNSTR_ORDER_READ_QUEUE_KEY");
+            string? connectionString = System.Environment.GetEnvironmentVariable("ORDER_READ_QUEUE_KEY");
             if (connectionString != null)
             {
                 string queueName = "order-read-queue";
@@ -75,5 +76,6 @@ namespace IntegrationWorks.Function
             }
             return new OkObjectResult("Connection String null");
         }
+
     }
 }

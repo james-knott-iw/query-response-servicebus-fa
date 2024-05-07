@@ -22,7 +22,7 @@ namespace IntegrationWorks.Function
         [Function(nameof(order_read_reply))]
         public async Task RunAsync([EventGridTrigger] CloudEvent cloudEvent)
         {
-            string replyConnectionString = Environment.GetEnvironmentVariable("ORDER_READ_REPLY_QUEUE_KEY");
+            string? replyConnectionString = Environment.GetEnvironmentVariable("ORDER_READ_REPLY_QUEUE_KEY");
             string replyQueueName = "order-read-reply-queue";
             ServiceBusClient client;
             ServiceBusProcessor processor;
@@ -67,7 +67,6 @@ namespace IntegrationWorks.Function
         private async Task MessageHandler(ProcessMessageEventArgs args)
         {
             _logger.LogInformation("IN MESSAGE HANDLER");
-
             string body = args.Message.Body.ToString();
             if (body != null)
             {
@@ -76,7 +75,6 @@ namespace IntegrationWorks.Function
                     Order order = JsonSerializer.Deserialize<Order>(body);
                     if (order != null)
                     {
-
                         _logger.LogInformation("Received: order with Id: {id} and Name: {name}", order.Id, order.Name);
                     }
                     else

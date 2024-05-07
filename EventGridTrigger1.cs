@@ -35,7 +35,7 @@ namespace IntegrationWorks.Function
         public async Task RunAsync([EventGridTrigger] CloudEvent cloudEvent)
         {
 
-            string connectionString = Environment.GetEnvironmentVariable("ORDER_READ_QUEUE_KEY");
+            string? connectionString = Environment.GetEnvironmentVariable("ORDER_READ_QUEUE_KEY");
             string queueName = "order-read-queue";
             ServiceBusClient client;
             ServiceBusProcessor processor;
@@ -74,7 +74,7 @@ namespace IntegrationWorks.Function
             // the sender used to publish messages to the queue
             ServiceBusSender sender;
 
-            string replyConnectionString = Environment.GetEnvironmentVariable("ORDER_READ_REPLY_QUEUE_KEY");
+            string? replyConnectionString = Environment.GetEnvironmentVariable("ORDER_READ_REPLY_QUEUE_KEY");
             string replyQueueName = "order-read-reply-queue";
             // Create the clients that we'll use for sending and processing messages.
             client = new ServiceBusClient(replyConnectionString);
